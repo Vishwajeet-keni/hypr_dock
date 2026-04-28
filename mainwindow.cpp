@@ -28,10 +28,23 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setAnchor(const QString &anchor)
+{
+    m_anchor = anchor;
+}
+
+void MainWindow::setDockLength(int dockLength)
+{
+    m_dockLength = dockLength;
+}
+
+void MainWindow::setDockThickness(int dockThickness)
+{
+    m_dockThickness = dockThickness;
+}
+
 void MainWindow::setupLayerShell()
 {
-    // useLayerShell() is deprecated since Qt 6.5 — no longer needed
-
     layerShellWindow = LayerShellQt::Window::get(this->windowHandle());
     if (!layerShellWindow) {
         qWarning() << "Failed to get LayerShellQt::Window";
@@ -39,19 +52,35 @@ void MainWindow::setupLayerShell()
     }
 
     layerShellWindow->setLayer(LayerShellQt::Window::LayerBottom);
-
-    layerShellWindow->setAnchors(
-        LayerShellQt::Window::Anchors(
-            LayerShellQt::Window::AnchorBottom |
-            LayerShellQt::Window::AnchorLeft   |
-            LayerShellQt::Window::AnchorRight
-            )
-        );
-
-    const int dockHeight = 48;
-    layerShellWindow->setExclusiveZone(dockHeight);
     layerShellWindow->setMargins(QMargins(0, 0, 0, 0));
 
-    QScreen *screen = QGuiApplication::primaryScreen();
-    this->resize(screen->availableGeometry().width(), dockHeight);
+
+    if (m_anchor == "bottom") {
+        layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
+            LayerShellQt::Window::AnchorBottom
+            ));
+        layerShellWindow->setExclusiveZone(m_dockThickness);
+        this->resize(m_dockLength, m_dockThickness);
+
+    } else if (m_anchor == "top") {
+        layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
+            LayerShellQt::Window::AnchorTop
+            ));
+        layerShellWindow->setExclusiveZone(m_dockThickness);
+        this->resize(m_dockLength, m_dockThickness);
+
+    } else if (m_anchor == "left") {
+        layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
+            LayerShellQt::Window::AnchorLeft
+            ));
+        layerShellWindow->setExclusiveZone(m_dockThickness);
+        this->resize(m_dockThickness, m_dockLength);  // ← swapped
+
+    } else if (m_anchor == "right") {
+        layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
+            LayerShellQt::Window::AnchorRight
+            ));
+        layerShellWindow->setExclusiveZone(m_dockThickness);
+        this->resize(m_dockThickness, m_dockLength);  // ← swapped
+    }
 }

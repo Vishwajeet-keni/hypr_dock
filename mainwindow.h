@@ -17,11 +17,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+
     void setupLayerShell();
+
+    void setAnchor(const QString &anchor);
+    void setDockThickness(int dockThickness);
+    void setDockLength(int dockLength);
 
 private:
     Ui::MainWindow *ui;
     LayerShellQt::Window *layerShellWindow = nullptr;  // ← was missing
+
+    QString m_anchor = "bottom";
+    int m_dockThickness = 48;
+    int m_dockLength = 700;
 
 protected:
     void showEvent(QShowEvent *event) override;
