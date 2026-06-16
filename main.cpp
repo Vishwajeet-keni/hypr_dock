@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
 
     QCommandLineOption dockThicknessOption(
         QStringList() << "t" << "dock-thickness",
-        "Default dock-thickness: 48px",
+        "Default dock-thickness :  48px",
         "dock-thickness",
         "48"      // default value
         );
@@ -32,17 +32,26 @@ int main(int argc, char *argv[])
 
     QCommandLineOption dockLengthOption(
         QStringList() << "l" << "dock-length",
-        "Default dock length: 700px",
+        "Default dock length    : 700px",
         "dock-length",
         "700"      // default value
         );
     parser.addOption(dockLengthOption);
 
+    QCommandLineOption dockMarginOption(
+        QStringList() << "m" << "dock-margin",
+        "Default dock margin    :   8px",
+        "dock-margin",
+        "8"      // default value
+        );
+    parser.addOption(dockMarginOption);
 
     parser.process(a);
     QString anchor = parser.value(anchorOption).toLower();
     int dockThickness = parser.value(dockThicknessOption).toInt();
     int dockLength = parser.value(dockLengthOption).toInt();
+    int dockMargin = parser.value(dockMarginOption).toInt();
+
 
 
 
@@ -50,6 +59,7 @@ int main(int argc, char *argv[])
     w.setAnchor(anchor);
     w.setDockThickness(dockThickness);
     w.setDockLength(dockLength);
+    w.setDockMargin(dockMargin);
 
     w.show();
     return QCoreApplication::exec();

@@ -23,6 +23,7 @@ public:
     void setAnchor(const QString &anchor);
     void setDockThickness(int dockThickness);
     void setDockLength(int dockLength);
+    void setDockMargin(int dockMargin);
 
 private:
     Ui::MainWindow *ui;
@@ -31,6 +32,7 @@ private:
     QString m_anchor = "bottom";
     int m_dockThickness = 48;
     int m_dockLength = 700;
+    int m_dockMargin = 8;
 
 protected:
     void showEvent(QShowEvent *event) override;

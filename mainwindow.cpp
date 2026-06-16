@@ -43,6 +43,11 @@ void MainWindow::setDockThickness(int dockThickness)
     m_dockThickness = dockThickness;
 }
 
+void MainWindow::setDockMargin(int dockMargin)
+{
+    m_dockMargin = dockMargin;
+}
+
 void MainWindow::setupLayerShell()
 {
     layerShellWindow = LayerShellQt::Window::get(this->windowHandle());
@@ -52,7 +57,7 @@ void MainWindow::setupLayerShell()
     }
 
     layerShellWindow->setLayer(LayerShellQt::Window::LayerBottom);
-    layerShellWindow->setMargins(QMargins(0, 0, 0, 0));
+    // layerShellWindow->setMargins(QMargins(m_dockMargin, m_dockMargin, m_dockMargin, m_dockMargin));
 
 
     if (m_anchor == "bottom") {
@@ -61,6 +66,7 @@ void MainWindow::setupLayerShell()
             ));
         layerShellWindow->setExclusiveZone(m_dockThickness);
         this->resize(m_dockLength, m_dockThickness);
+        layerShellWindow->setMargins(QMargins(0, 0, 0, m_dockMargin));
 
     } else if (m_anchor == "top") {
         layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
@@ -68,6 +74,8 @@ void MainWindow::setupLayerShell()
             ));
         layerShellWindow->setExclusiveZone(m_dockThickness);
         this->resize(m_dockLength, m_dockThickness);
+        layerShellWindow->setMargins(QMargins(0, m_dockMargin, 0, 0));
+
 
     } else if (m_anchor == "left") {
         layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
@@ -75,6 +83,7 @@ void MainWindow::setupLayerShell()
             ));
         layerShellWindow->setExclusiveZone(m_dockThickness);
         this->resize(m_dockThickness, m_dockLength);  // ← swapped
+        layerShellWindow->setMargins(QMargins(m_dockMargin, 0, 0, 0));
 
     } else if (m_anchor == "right") {
         layerShellWindow->setAnchors(LayerShellQt::Window::Anchors(
@@ -82,5 +91,7 @@ void MainWindow::setupLayerShell()
             ));
         layerShellWindow->setExclusiveZone(m_dockThickness);
         this->resize(m_dockThickness, m_dockLength);  // ← swapped
+        layerShellWindow->setMargins(QMargins(0, m_dockMargin, 0, 0));
+
     }
 }
